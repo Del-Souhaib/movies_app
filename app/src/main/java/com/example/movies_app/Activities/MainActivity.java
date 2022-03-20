@@ -9,8 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.example.movies_app.Adapters.ItemTouchHelperAdapter;
 import com.example.movies_app.Adapters.MyAdapter;
+import com.example.movies_app.Adapters.SwipeHelperCallback;
 import com.example.movies_app.Models.Film;
 import com.example.movies_app.R;
 import com.example.movies_app.Services.FilmService;
@@ -35,14 +39,41 @@ public class MainActivity extends AppCompatActivity {
         fs.create(new Film("dark kighy", "action/drama", "this is the bst movie", 3, 200, R.drawable.poster1));
         Toolbar toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         recyclerView = findViewById(R.id.recyclerView);
         myAdapter = new MyAdapter(this, fs.findall());
+
+        ItemTouchHelper.Callback callback = new SwipeHelperCallback(myAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        myAdapter.setTochHelper(itemTouchHelper);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
+//                new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+//                        ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+//                    @Override
+//                    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//                        Toast.makeText(MainActivity.this, "move", Toast.LENGTH_SHORT).show();
+//                        final int fromPos = viewHolder.getAdapterPosition();
+//                        final int toPos = target.getAdapterPosition();
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+//                        int position = viewHolder.getAdapterPosition();
+//                        Toast.makeText(MainActivity.this, position + "", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//
+//                });
+//        itemTouchHelper.attachToRecyclerView(recyclerView);
+//        SwipeHelperCallback swipeHelperCallback=new SwipeHelperCallback();
 
     }
+
 }
