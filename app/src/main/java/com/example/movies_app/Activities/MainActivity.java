@@ -1,36 +1,21 @@
 package com.example.movies_app.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.helper.widget.Carousel;
+import androidx.core.app.ShareCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.Toast;
-
-import com.example.movies_app.Adapters.ItemTouchHelperAdapter;
 import com.example.movies_app.Adapters.MyAdapter;
 import com.example.movies_app.Adapters.SwipeHelperCallback;
 import com.example.movies_app.Models.Film;
 import com.example.movies_app.R;
 import com.example.movies_app.Services.FilmService;
 
-import java.util.Date;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -88,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ImageView share=findViewById(R.id.share_button);
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShareCompat.IntentBuilder.from(MainActivity.this).setType("text/plain").
+                        setChooserTitle("Share a movie").setText("this is just simpe share").startChooser();
+            }
+        });
     }
 
 
@@ -114,4 +107,6 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //        return true;
 //    }
+
+
 }

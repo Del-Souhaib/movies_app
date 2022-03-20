@@ -1,6 +1,7 @@
 package com.example.movies_app.Adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -48,9 +49,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
     public MyAdapter(Context context, List<Film> films) {
         this.context = context;
         this.films = films;
-        films_filtred=new ArrayList<>();
+        films_filtred = new ArrayList<>();
         films_filtred.addAll(films);
-        search_filter=new Search_Filter(this);
+        search_filter = new Search_Filter(this);
 //        this.filtred_films = films;
     }
 
@@ -63,7 +64,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 //        holder.title.setText("helllo");
 
         holder.title.setText(films_filtred.get(position).getNom());
@@ -77,6 +78,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         holder.desc.setText(descsub);
         holder.duration.setText(films_filtred.get(position).getCreated_at() + " min");
 
+        holder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Film film=films.get(position);
+                String mssg="Title : "+film.getNom()+"\n"+"DESCRIPTION : "+film.getDesc()+"\n"
+                        +"Duration : "+film.getType()+"\n"+"Rating : "+film.getRating();
+                ShareCompat.IntentBuilder.from((Activity) context).setChooserTitle(film.getNom())
+                        .setType("text/plain").setText(mssg).startChooser();
+            }
+        });
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Film film=films.get(position);
+                String mssg="Title : "+film.getNom()+"\n"+"DESCRIPTION : "+film.getDesc()+"\n"
+                        +"Duration : "+film.getType()+"\n"+"Rating : "+film.getRating();
+                ShareCompat.IntentBuilder.from((Activity) context).setChooserTitle(film.getNom())
+                        .setType("text/plain").setText(mssg).startChooser();
+            }
+        });
     }
 
     @Override
@@ -160,11 +181,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
 
         @Override
         public void onShowPress(MotionEvent motionEvent) {
+            Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
 
         }
 
         @Override
         public boolean onSingleTapUp(MotionEvent motionEvent) {
+            Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+
             return false;
         }
 
@@ -185,7 +209,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
 
         @Override
         public void onClick(View view) {
-//            ShareCompat.IntentBuilder.from(view).setText("")
+            Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+
         }
 
         @Override
@@ -205,6 +230,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         public Search_Filter(RecyclerView.Adapter adapter) {
             this.adapter = adapter;
         }
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             films_filtred.clear();
@@ -221,14 +247,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
             }
 //            Toast.makeText(context,films.toString(),Toast.LENGTH_SHORT).show();
             results.values = films_filtred;
-            results.count=films_filtred.size();
+            results.count = films_filtred.size();
             return results;
         }
+
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            films_filtred= (List<Film>) results.values;
+            films_filtred = (List<Film>) results.values;
             this.adapter.notifyDataSetChanged();
         }
-    };
+    }
+
+    ;
 
 }
