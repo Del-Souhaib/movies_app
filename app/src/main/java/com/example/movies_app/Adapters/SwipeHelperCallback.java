@@ -1,5 +1,7 @@
 package com.example.movies_app.Adapters;
 
+import android.app.AlertDialog;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +37,7 @@ public class SwipeHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        myadapter.onItemSwiped(viewHolder.getAdapterPosition());
+            myadapter.onItemSwiped(viewHolder.getAdapterPosition(), direction);
     }
 
     @Override

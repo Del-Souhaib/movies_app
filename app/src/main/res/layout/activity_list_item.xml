@@ -104,7 +104,8 @@
                     android:layout_marginRight="10dp"
                     android:numStars="5"
                     android:progressBackgroundTint="@color/golden_cold"
-                    android:progressTint="@color/golden" />
+                    android:progressTint="@color/golden"
+                    android:stepSize="0.1" />
 
             </LinearLayout>
 

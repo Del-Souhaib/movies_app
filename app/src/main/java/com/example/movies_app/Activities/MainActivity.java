@@ -36,7 +36,18 @@ public class MainActivity extends AppCompatActivity {
         fs.create(new Film("dark kighy", "action , adventure", "this is the bst movie", 3.5, 120, R.drawable.poster1));
         fs.create(new Film("Jocker", "action , adventure", "this is the bst movie", 4, 90, R.drawable.poster2));
         fs.create(new Film("Spider man", "action/drama", "this is the bst movie", 4.5, 140, R.drawable.poster3));
-        fs.create(new Film("dark kighy", "action/drama", "this is the bst movie", 3, 200, R.drawable.poster1));
+        fs.create(new Film("Parasite", "action/drama", "this is the bst movie", 3, 200, R.drawable.poster5));
+        fs.create(new Film("Squid game", "action/drama", "this is the bst movie", 3, 150, R.drawable.poster6));
+        fs.create(new Film("Game of thrones", "action/drama", "this is the bst movie", 3, 136, R.drawable.poster7));
+        fs.create(new Film("Peaky blinders", "action/drama", "this is the bst movie", 3, 90, R.drawable.poster8));
+        fs.create(new Film("Vikings", "action/drama", "this is the bst movie", 5.5, 98, R.drawable.poster9));
+        fs.create(new Film("Breaking bad", "action/drama", "this is the bst movie", 4, 102, R.drawable.poster10));
+
+        fs.create(new Film("Rick & morty", "action/drama", "this is the bst movie", 5, 102, R.drawable.poster11));
+        fs.create(new Film("Cruella", "action/drama", "this is the bst movie", 3.9, 102, R.drawable.poster12));
+        fs.create(new Film("The wolf of street", "action/drama", "this is the bst movie", 4.2, 102, R.drawable.poster13));
+        fs.create(new Film("World war z", "action/drama", "this is the bst movie", 5, 102, R.drawable.poster14));
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {

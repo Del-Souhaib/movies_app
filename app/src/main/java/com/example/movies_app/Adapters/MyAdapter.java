@@ -1,6 +1,8 @@
 package com.example.movies_app.Adapters;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.util.Log;
@@ -76,9 +78,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
     }
 
     @Override
-    public void onItemSwiped(int position) {
-        films.remove(position);
-        notifyItemRemoved(position);
+    public void onItemSwiped(int position,int direction) {
+        if(direction==ItemTouchHelper.RIGHT){
+            films.remove(position);
+            notifyItemRemoved(position);
+        }
+        else if(direction==ItemTouchHelper.LEFT){
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this.context);
+            alertDialog.setMessage("Rate this movie");
+            alertDialog.show();
+            notifyItemChanged(position);
+//            Toast.makeText(this.context,direction+"",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void setTochHelper(ItemTouchHelper itemTouchHelper) {
