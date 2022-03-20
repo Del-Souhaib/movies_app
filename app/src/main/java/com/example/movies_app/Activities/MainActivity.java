@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,10 +72,25 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         myAdapter.setTochHelper(itemTouchHelper);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+        SearchView searchView = findViewById(R.id.search_film);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                myAdapter.getFilter().filter(s);
+                return true;
+            }
 
-
+            @Override
+            public boolean onQueryTextChange(String s) {
+                myAdapter.getFilter().filter(s);
+//                Toast.makeText(MainActivity.this,"heelo "+s.length(),Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
 
     }
+
+
 //    @SuppressLint("ResourceType")
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ShareCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,20 +33,25 @@ import com.example.movies_app.R;
 import org.w3c.dom.ls.LSException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements ItemTouchHelperAdapter,
         Filterable {
 
     private Context context;
-    private List<Film> dataSet;
     private List<Film> films;
+    private List<Film> films_filtred;
+    private Search_Filter search_filter;
     ItemTouchHelper itemTouchHelper;
 
     public MyAdapter(Context context, List<Film> films) {
         this.context = context;
         this.films = films;
-        this.dataSet = films;
+        films_filtred=new ArrayList<>();
+        films_filtred.addAll(films);
+        search_filter=new Search_Filter(this);
+//        this.filtred_films = films;
     }
 
     @NonNull
@@ -60,22 +66,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, int position) {
 //        holder.title.setText("helllo");
 
-        holder.title.setText(films.get(position).getNom());
-        holder.type.setText(films.get(position).getType());
-        holder.image.setImageResource(films.get(position).getImage());
-        holder.ratingBar.setRating((float) films.get(position).getRating());
-        String descsub = films.get(position).getDesc();
+        holder.title.setText(films_filtred.get(position).getNom());
+        holder.type.setText(films_filtred.get(position).getType());
+        holder.image.setImageResource(films_filtred.get(position).getImage());
+        holder.ratingBar.setRating((float) films_filtred.get(position).getRating());
+        String descsub = films_filtred.get(position).getDesc();
         if (descsub.length() > 30) {
             descsub = descsub.substring(0, 30) + "...";
         }
         holder.desc.setText(descsub);
-        holder.duration.setText(films.get(position).getCreated_at() + " min");
+        holder.duration.setText(films_filtred.get(position).getCreated_at() + " min");
 
     }
 
     @Override
     public int getItemCount() {
-        return films.size();
+        return films_filtred.size();
     }
 
     @Override
@@ -92,16 +98,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
             films.remove(position);
             notifyItemRemoved(position);
         } else if (direction == ItemTouchHelper.LEFT) {
-            Film film=films.get(position);
-            View dialoguedesign =LayoutInflater.from(context).inflate(R.layout.rating_pop_layout,null);
+            Film film = films.get(position);
+            View dialoguedesign = LayoutInflater.from(context).inflate(R.layout.rating_pop_layout, null);
 
-            TextView title=dialoguedesign.findViewById(R.id.pop_title);
-            ImageView image=dialoguedesign.findViewById(R.id.pop_image);
-            RatingBar ratingbar=dialoguedesign.findViewById(R.id.pop_rating);
+            TextView title = dialoguedesign.findViewById(R.id.pop_title);
+            ImageView image = dialoguedesign.findViewById(R.id.pop_image);
+            RatingBar ratingbar = dialoguedesign.findViewById(R.id.pop_rating);
 
             title.setText(film.getNom().toString());
             image.setImageResource(film.getImage());
-            ratingbar.setRating((float)film.getRating());
+            ratingbar.setRating((float) film.getRating());
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this.context);
             alertDialog
@@ -114,7 +120,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
                             film.setRating(ratingbar.getRating());
                             notifyDataSetChanged();
                         }
-                    });
+                    }).setNegativeButton("Cancel", null);
 //            TextView textView=findViewById R.id.pop_title;
 
             alertDialog.show();
@@ -179,7 +185,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
 
         @Override
         public void onClick(View view) {
-
+//            ShareCompat.IntentBuilder.from(view).setText("")
         }
 
         @Override
@@ -189,35 +195,39 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         }
     }
 
-    @Override
     public Filter getFilter() {
-        return Searched_Filter;
+        return search_filter;
     }
 
-    private Filter Searched_Filter = new Filter() {
+    public class Search_Filter extends Filter {
+        public RecyclerView.Adapter adapter;
+
+        public Search_Filter(RecyclerView.Adapter adapter) {
+            this.adapter = adapter;
+        }
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<Film> filteredList = new ArrayList<>();
+            films_filtred.clear();
+            FilterResults results = new FilterResults();
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(films);
+                films_filtred.addAll(films);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Film item : films) {
                     if (item.getNom().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item);
+                        films_filtred.add(item);
                     }
                 }
             }
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
+//            Toast.makeText(context,films.toString(),Toast.LENGTH_SHORT).show();
+            results.values = films_filtred;
+            results.count=films_filtred.size();
             return results;
         }
-
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            dataSet.clear();
-            dataSet.addAll((ArrayList) results.values);
-            notifyDataSetChanged();
+            films_filtred= (List<Film>) results.values;
+            this.adapter.notifyDataSetChanged();
         }
     };
 
