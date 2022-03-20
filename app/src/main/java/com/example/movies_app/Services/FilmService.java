@@ -57,4 +57,15 @@ public class FilmService implements IDAO<Film> {
         }
         return null;
     }
+
+    @Override
+    public List<Film> findbyname(String name) {
+        List<Film> searchfilms= new ArrayList<>();;
+        for (Film film : films){
+            if(film.getNom().contains(name)){
+                 searchfilms.add(film);
+            }
+        }
+        return searchfilms;
+    }
 }

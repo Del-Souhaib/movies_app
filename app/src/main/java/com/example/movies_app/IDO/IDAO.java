@@ -9,6 +9,6 @@ public interface IDAO<T> {
      Boolean update(T t);
      Boolean delete(T t);
      List<T> findall();
-     Film findbyid(int id);
-
+     T findbyid(int id);
+     List<T> findbyname(String name);
 }

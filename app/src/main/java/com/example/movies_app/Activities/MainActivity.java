@@ -8,8 +8,17 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.movies_app.Adapters.ItemTouchHelperAdapter;
@@ -48,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         fs.create(new Film("The wolf of street", "action/drama", "this is the bst movie", 4.2, 102, R.drawable.poster13));
         fs.create(new Film("World war z", "action/drama", "this is the bst movie", 5, 102, R.drawable.poster14));
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.mytoolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.mytoolbar);
+//        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
@@ -63,28 +72,30 @@ public class MainActivity extends AppCompatActivity {
         myAdapter.setTochHelper(itemTouchHelper);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
-//                new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,
-//                        ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
-//                    @Override
-//                    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-//                        Toast.makeText(MainActivity.this, "move", Toast.LENGTH_SHORT).show();
-//                        final int fromPos = viewHolder.getAdapterPosition();
-//                        final int toPos = target.getAdapterPosition();
-//                        return false;
-//                    }
-//
-//                    @Override
-//                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//                        int position = viewHolder.getAdapterPosition();
-//                        Toast.makeText(MainActivity.this, position + "", Toast.LENGTH_SHORT).show();
-//
-//                    }
-//
-//                });
-//        itemTouchHelper.attachToRecyclerView(recyclerView);
-//        SwipeHelperCallback swipeHelperCallback=new SwipeHelperCallback();
+
 
     }
-
+//    @SuppressLint("ResourceType")
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.toolbar, menu);
+//        MenuItem searchItem = menu.findItem(R.id.search_film);
+//        SearchView searchView = (SearchView) searchItem.getActionView();
+//        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                Log.d("newText1",query);
+//                return false;
+//            }
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                Log.d("newText",newText);
+//                myAdapter.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
+//        return true;
+//    }
 }
